@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>StudyBoost</title>
+<style>
+*{box-sizing:border-box;margin:0}
+body{font-family:system-ui,sans-serif;color:#1e1b4b;line-height:1.6;background:#faf9ff}
+section{padding:44px 20px;max-width:900px;margin:auto;text-align:center}
+.hero{background:linear-gradient(135deg,#6d28d9,#2563eb);color:#fff;max-width:none}
+.hero h1{font-size:2.1rem;margin-bottom:10px}
+.btn{display:inline-block;margin:10px 6px 0;padding:14px 28px;background:#fff;color:#6d28d9;border:2px solid #6d28d9;border-radius:30px;font-size:1rem;font-weight:700;text-decoration:none;cursor:pointer}
+.hero .btn{border-color:#fff}
+.btn.main{background:#6d28d9;color:#fff}
+.hidden{display:none}
+.box{background:#fff;border-radius:18px;padding:22px;box-shadow:0 4px 18px #6d28d922;text-align:left}
+label{display:block;font-weight:700;margin:14px 0 6px}
+input,select{width:100%;padding:12px;border:2px solid #ddd6fe;border-radius:12px;font-size:1rem}
+.subjects{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.subj{padding:14px;border:2px solid #ddd6fe;border-radius:14px;background:#fff;font-size:1rem;cursor:pointer}
+.subj.on{background:#6d28d9;color:#fff;border-color:#6d28d9}
+.grid{display:grid;gap:14px;margin-top:20px}
+@media(min-width:700px){.grid{grid-template-columns:repeat(3,1fr)}}
+.card{background:#f3f0ff;padding:20px;border-radius:16px}
+ul{padding-left:20px;margin:8px 0 14px}
+textarea{width:100%;height:170px;padding:12px;border:2px solid #ddd6fe;border-radius:12px;font-size:.9rem}
+iframe{width:100%;height:700px;border:none;border-radius:12px;margin-top:16px}
+footer{background:#1e1b4b;color:#c4b5fd;padding:24px;text-align:center;font-size:.9rem}
+.err{color:#dc2626;margin-top:10px;min-height:1.2em}
+</style>
+</head>
+<body>
+
+<section class="hero">
+  <h1>🧠 Estudia menos tiempo, aprende más</h1>
+  <p>Cuéntanos qué necesitas reforzar y te preparamos tu plan.</p>
+  <button class="btn" id="start">👋 ¡Empezar!</button>
+</section>
+
+<section id="bienvenida" class="hidden">
+  <div class="box">
+    <h2>¡Bienvenido/a! 🎉</h2>
+    <label for="nombre">¿Cómo te llamas?</label>
+    <input id="nombre" maxlength="30" placeholder="Tu nombre">
+    <label for="curso">¿En qué curso estás?</label>
+    <select id="curso">
+      <option value="">Elige tu curso</option>
+      <option>1º ESO</option><option>2º ESO</option><option>3º ESO</option>
+      <option>4º ESO</option><option>1º Bachillerato</option><option>2º Bachillerato</option>
+    </select>
+    <label>¿En qué asignatura necesitas refuerzo?</label>
+    <div class="subjects">
+      <button class="subj" data-s="mates">➗ Matemáticas</button>
+      <button class="subj" data-s="lengua">📖 Lengua</button>
+      <button class="subj" data-s="bio">🧬 Biología</button>
+      <button class="subj" data-s="hist">🏛️ Historia</button>
+    </div>
+    <div class="err" id="err"></div>
+    <button class="btn main" id="ver">Ver mi plan 🚀</button>
+  </div>
+</section>
+
+<section id="plan" class="hidden">
+  <h2 id="saludo"></h2>
+  <div class="box" style="margin-top:16px">
+    <h3 id="tema"></h3>
+    <ul id="temas"></ul>
+    <h3>💡 Consejos</h3>
+    <ul id="consejos"></ul>
+    <h3>📋 Apuntes de ejemplo para la app</h3>
+    <p>Cópialos, pégalos en StudyBoost y pulsa "Generar tarjetas".</p>
+    <textarea id="notas" readonly></textarea>
+    <button class="btn main" id="copiar">Copiar apuntes 📋</button>
+    <a class="btn" href="#app">Ir a la app 🚀</a>
+    <button class="btn" id="otra">Cambiar asignatura 🔄</button>
+  </div>
+</section>
+
+<section>
+  <h2>¿Cómo funciona?</h2>
+  <div class="grid">
+    <div class="card">📝<h3>1. Pega</h3><p>Copia tus apuntes en la app.</p></div>
+    <div class="card">✨<h3>2. Genera</h3><p>Crea tus tarjetas al instante.</p></div>
+    <div class="card">✅<h3>3. Practica</h3><p>Hazte tests y mide tu progreso.</p></div>
+  </div>
+</section>
+
+<section id="app">
+  <h2>Pruébala ahora 👇</h2>
+  <iframe src="https://TU-APP.streamlit.app/?embed=true"></iframe>
+</section>
+
+<section>
+  <h2>Sobre StudyBoost</h2>
+  <p>Herramienta para estudiantes de secundaria y bachillerato de toda España. Genera flashcards, tests tipo A/B/C/D y un panel para medir tu progreso.</p>
+</section>
+
+<footer>© 2026 StudyBoost 🇪🇸 · Hecho por estudiantes, para estudiantes</footer>
+
+<script>
+const D={
+mates:{n:"Matemáticas",e:"➗",
+ eso:["Fracciones y porcentajes","Ecuaciones de primer grado","Proporcionalidad","Geometría: áreas y Pitágoras","Funciones"],
+ bach:["Límites y derivadas","Integrales","Matrices y sistemas","Probabilidad y estadística"],
+ tips:["Practica unos ejercicios cada día","Repite los que has fallado","Explica un problema en voz alta"],
+ notas:`Porcentaje: parte de cada 100 unidades
+Ecuación de primer grado: igualdad con una incógnita elevada a 1
+Teorema de Pitágoras: en un triángulo rectángulo, a² + b² = c²
+Perímetro: suma de las longitudes de los lados de una figura
+Área del círculo: pi multiplicado por el radio al cuadrado
+Función: relación que asigna a cada valor de x un único valor de y`},
+lengua:{n:"Lengua",e:"📖",
+ eso:["Clases de palabras","Sujeto y predicado","Ortografía y tildes","Géneros literarios","Comprensión lectora"],
+ bach:["Oraciones compuestas","Literatura: Edad Media, Siglo de Oro y siglo XX","Comentario de texto","Tipos de texto"],
+ tips:["Lee un rato cada día","Escribe resúmenes cortos","Repasa las reglas de tildes con ejemplos"],
+ notas:`Sujeto: quien realiza la acción del verbo
+Predicado: lo que se dice del sujeto
+Sustantivo: palabra que nombra personas, animales, cosas o ideas
+Adjetivo: palabra que acompaña al sustantivo y lo describe
+Verbo: palabra que expresa acción, estado o proceso
+Palabra aguda: la que tiene la sílaba tónica en la última sílaba`},
+bio:{n:"Biología",e:"🧬",
+ eso:["La célula","Aparatos y sistemas del cuerpo","Genética básica","Ecosistemas","Clasificación de los seres vivos"],
+ bach:["Biomoléculas","Ciclo celular","ADN y ARN","Metabolismo","Inmunología y evolución"],
+ tips:["Dibuja esquemas y rotúlalos","Aprende el vocabulario con flashcards","Relaciona cada concepto con un ejemplo"],
+ notas:`Célula: unidad básica de los seres vivos
+Mitocondria: orgánulo que produce energía para la célula
+Fotosíntesis: proceso por el que las plantas fabrican su alimento con luz
+ADN: molécula que guarda la información genética
+Ribosoma: orgánulo que fabrica proteínas
+Cloroplasto: orgánulo donde se realiza la fotosíntesis`},
+hist:{n:"Historia",e:"🏛️",
+ eso:["Prehistoria y Edad Antigua","Edad Media","Edad Moderna y descubrimientos","Revolución francesa","Edad Contemporánea"],
+ bach:["Reyes Católicos y Antiguo Régimen","España en el siglo XIX","Segunda República y Guerra Civil","Franquismo","Transición"],
+ tips:["Haz una línea del tiempo","Aprende fechas clave con tarjetas","Cuenta cada hecho como una historia"],
+ notas:`Prehistoria: etapa anterior a la invención de la escritura
+Edad Media: periodo entre la caída del Imperio romano de Occidente y 1492
+Renacimiento: movimiento cultural europeo que renovó el arte y la ciencia desde el siglo XV
+Revolución francesa: proceso iniciado en 1789 que puso fin al Antiguo Régimen
+Descubrimiento de América: llegada de Colón al continente en 1492
+Imperio romano: civilización que dominó el Mediterráneo durante siglos`}
+};
+const $=id=>document.getElementById(id);
+let sel=null;
+function fill(id,arr){$(id).innerHTML="";arr.forEach(t=>{const li=document.createElement("li");li.textContent=t;$(id).appendChild(li);});}
+$("start").onclick=()=>{$("bienvenida").classList.remove("hidden");$("bienvenida").scrollIntoView({behavior:"smooth"});};
+document.querySelectorAll(".subj").forEach(b=>b.onclick=()=>{
+  sel=b.dataset.s;
+  document.querySelectorAll(".subj").forEach(x=>x.classList.toggle("on",x===b));
+});
+$("ver").onclick=()=>{
+  const nombre=$("nombre").value.trim(),curso=$("curso").value;
+  if(!nombre||!curso||!sel){$("err").textContent="Rellena tu nombre, curso y asignatura 🙂";return;}
+  $("err").textContent="";
+  const d=D[sel],nivel=curso.includes("Bach")?"bach":"eso";
+  $("saludo").textContent="¡Hola, "+nombre+"! 👋 Vamos a reforzar "+d.n+" en "+curso;
+  $("tema").textContent=d.e+" Qué repasar en "+d.n;
+  fill("temas",d[nivel]);fill("consejos",d.tips);
+  $("notas").value=d.notas;
+  $("copiar").textContent="Copiar apuntes 📋";
+  $("plan").classList.remove("hidden");
+  $("plan").scrollIntoView({behavior:"smooth"});
+};
+$("copiar").onclick=async()=>{
+  try{await navigator.clipboard.writeText($("notas").value);$("copiar").textContent="¡Copiado! ✅";}
+  catch(e){$("notas").select();$("copiar").textContent="Copia el texto seleccionado 📋";}
+};
+$("otra").onclick=()=>{$("plan").classList.add("hidden");$("bienvenida").scrollIntoView({behavior:"smooth"});};
+</script>
+</body>
+</html>
